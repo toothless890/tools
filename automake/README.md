@@ -1,2 +1,2 @@
 # automake
-Creates a super simple Makefile for C projects, taking in one or multiple c files and compiling them together
+Creates a super simple Makefile for C projects, taking in the main c file as an argument, and adding all .c files in the directory to be compiled
