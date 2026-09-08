@@ -1,0 +1,24 @@
+#!/bin/bash
+
+if echo "$1" | grep -q ".AppImage"; then
+	appname="$1"
+	./"$1" --appimage-extract > /dev/null
+	trimmedappname="${appname%.*}"
+	cd ./squashfs-root
+	shopt -s nullglob
+	imagepaths=(*.svg *.png *.jpg)
+	iconpath="${imagepaths[0]}"
+	echo "$iconpath"
+	if [ -f "${imagepaths[0]}" ]; then
+		realIconPath=$(realpath "$iconpath")
+#		echo "$realIconPath"
+		cd ..
+		mv "$realIconPath" ./icons
+		rm -rf ./squashfs-root/
+		echo done
+	else
+		echo "no icon found, please search manually"
+	fi
+else
+	echo "Invalid argument. Please try ./imageExtractor {appname}.AppImage"
+fi

@@ -1,0 +1,30 @@
+#!/bin/bash
+text="CFLAGS= -g -Werror\nCC=gcc\n\n"
+files=""
+ofiles=""
+if [[ ! -n $1 ]]; then
+    echo "Please add a main program. usage:"
+    echo "automake [mainfile].c"
+    exit
+fi
+
+for i in *.c; do
+    [ -f "$i" ] || break
+    i="${i::-2}"
+    files+=$i
+    ofiles+="$i.o"
+done
+text+="all: $ofiles\n\t\$(CC) \$(CFLAGS) -o ${1::-2} $ofiles\n\n"
+
+for i in *.c; do
+    [ -f "$i" ] || break
+    i="${i::-2}"
+    text+="$i.o: $i.c\n\t\$(CC) \$(CFLAGS) -c $i.c\n\n"
+done
+
+
+text+="clean:\n\t@rm $files *.o 2>/dev/null || true\n"
+
+touch "Makefile"
+echo "Completed"
+printf "$text" > Makefile
