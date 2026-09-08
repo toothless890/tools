@@ -12,7 +12,7 @@ for i in *.c; do
     [ -f "$i" ] || break
     i="${i::-2}"
     files+=$i
-    ofiles+="$i.o"
+    ofiles+="$i.o "
 done
 text+="all: $ofiles\n\t\$(CC) \$(CFLAGS) -o ${1::-2} $ofiles\n\n"
 
